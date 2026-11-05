@@ -28,14 +28,15 @@ jobs:
       - name: Build SDL2 Vita executable
         working-directory: vita
         run: |
-          arm-vita-eabi-gcc -Wall -O2 \
+          arm-vita-eabi-gcc -Wall -O2 -Wl,-q \
             -I"$VITASDK/arm-vita-eabi/include" \
             src/main.c -o neonbrawl.velf \
             -L"$VITASDK/arm-vita-eabi/lib" \
-            -lSDL2 \
+            -lSDL2 -lvitagl \
             -Wl,--start-group \
             -lSceTouch_stub -lSceMotion_stub -lSceDisplay_stub \
             -lSceGxm_stub -lSceCtrl_stub -lSceSysmodule_stub \
+            -lSceMsgDialog_stub -lSceHid_stub \
             -Wl,--end-group
 
       - name: Package prototype VPK
@@ -45,6 +46,10 @@ jobs:
           vita-make-fself -c neonbrawl.velf package/eboot.bin
           vita-mksfoex -s TITLE_ID=NBRA00001 "Neon Brawl Vita Prototype" package/param.sfo
           vita-pack-vpk -s package/param.sfo -b package/eboot.bin neonbrawl-prototype.vpk
+
+      - name: Verify VPK exists
+        working-directory: vita
+        run: test -s neonbrawl-prototype.vpk
 
       - name: Upload prototype VPK
         uses: actions/upload-artifact@v4
