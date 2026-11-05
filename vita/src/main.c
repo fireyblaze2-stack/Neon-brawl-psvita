@@ -54,7 +54,8 @@ static void scene(SDL_Renderer*r,const Player*p,const Enemy*e,int count,float t)
  kai(r,p,t);
  for(int i=0;i<count;i++)if(e[i].hp>0&&e[i].y>=p->y)target(r,&e[i]);
  box(r,20,16,164,10,65,20,30); box(r,20,16,(p->hp>0?p->hp:0)*164/100,10,70,220,110);
- box(r,616,16,164,10,65,20,30); int total=0,max_total=0; for(int i=0;i<count;i++){total+=e[i].hp>0?e[i].hp:0;max_total+=e[i].maxhp;}\n box(r,616,16,max_total?total*164/max_total:0,10,230,75,115);
+ box(r,616,16,164,10,65,20,30); int total=0,max_total=0; for(int i=0;i<count;i++){total+=e[i].hp>0?e[i].hp:0;max_total+=e[i].maxhp;}
+ box(r,616,16,max_total?total*164/max_total:0,10,230,75,115);
  SDL_RenderPresent(r);
 }
 int main(int argc,char**argv){
