@@ -17,7 +17,6 @@ static void kai(SDL_Renderer*r,const Player*p,float t){
  int x=(int)p->x,y=(int)(p->y-p->z);
  SDL_Rect sh={x-16,(int)p->y-4,32,8};
  SDL_SetRenderDrawColor(r,0,0,0,90); SDL_RenderFillRect(r,&sh);
- if(p->atk<=0 && p->combo<0) return;
  box(r,x-4,y-14,8,14,34,42,68);
  box(r,x+3,y-14,8,14,34,42,68);
  box(r,x-10,y-34,20,21,43,182,168);
