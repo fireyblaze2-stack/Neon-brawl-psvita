@@ -19,13 +19,8 @@ jobs:
       - name: Inspect VitaSDK tools
         run: |
           echo "VITASDK=$VITASDK"
-          echo "PATH=$PATH"
           for tool in arm-vita-eabi-gcc vita-make-fself vita-mksfoex vita-pack-vpk; do
-            if command -v "$tool"; then
-              echo "FOUND: $tool"
-            else
-              echo "MISSING: $tool"
-            fi
+            command -v "$tool" || true
           done
 
       - name: Build native SDL2 prototype
@@ -36,7 +31,7 @@ jobs:
           test -n "$SDL_CONFIG"
           SDL_FLAGS="$("$SDL_CONFIG" --static-libs)"
           echo "SDL flags: $SDL_FLAGS"
-          arm-vita-eabi-g++ -Wall -O2 src/main.c -o neonbrawl.velf -I"$VITASDK/arm-vita-eabi/include/SDL2" -L"$VITASDK/arm-vita-eabi/lib" $SDL_FLAGS -lSceShaccCgExt_stub
+          arm-vita-eabi-g++ -Wall -O2 src/main.c -o neonbrawl.velf -I"$VITASDK/arm-vita-eabi/include/SDL2" -L"$VITASDK/arm-vita-eabi/lib" $SDL_FLAGS
 
       - name: Package prototype VPK
         working-directory: vita
