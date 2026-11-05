@@ -32,12 +32,12 @@ jobs:
             -I"$VITASDK/arm-vita-eabi/include" \
             src/main.c -o neonbrawl.velf \
             -L"$VITASDK/arm-vita-eabi/lib" \
-            -lSDL2 -lm -lstdc++ \
+            -lSDL2 -lm \
             -Wl,--start-group \
             -lSceLibKernel_stub -lSceProcessmgr_stub -lSceDisplay_stub -lSceGxm_stub \
             -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
             -lSceCommonDialog_stub -lSceAudio_stub -lSceAudioIn_stub \
-            -lSceMotion_stub -lSceIme_stub -lvitaGL \
+            -lSceMotion_stub -lSceIme_stub -lvitaGL -lstdc++ \
             -Wl,--end-group
 
       - name: Package prototype VPK
