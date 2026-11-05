@@ -33,13 +33,16 @@ jobs:
       - name: Build native SDL2 prototype
         working-directory: vita
         run: |
-          arm-vita-eabi-gcc -Wall -O2 src/main.c -o neonbrawl.velf \
-            -I"$VITASDK/arm-vita-eabi/include/SDL2" \
-            -L"$VITASDK/arm-vita-eabi/lib" \
-            -lSDL2 -lvitaGL -lSceGles2_stub -lSceEGL_stub \
-            -lSceDisplay_stub -lSceGxm_stub -lSceCtrl_stub \
-            -lSceSysmodule_stub -lSceTouch_stub -lSceHid_stub \
-            -lSceMsgDialog_stub -lSceIme_stub -lSceAudioIn_stub -lSceMotion_stub
+          echo "Available Vita graphics/system libraries:"
+          find "$VITASDK/arm-vita-eabi/lib" -maxdepth 1 -type f \\
+            \( -iname '*vitaGL*' -o -iname '*Gles*' -o -iname '*EGL*' -o -iname '*MsgDialog*' -o -iname '*Ime*' -o -iname '*Motion*' -o -iname '*AudioIn*' \) \\
+            -printf '%f\\n' | sort
+          echo "SDL2 linker flags:"
+          sdl2-config --static-libs || true
+          arm-vita-eabi-gcc -Wall -O2 src/main.c -o neonbrawl.velf \\
+            -I"$VITASDK/arm-vita-eabi/include/SDL2" \\
+            -L"$VITASDK/arm-vita-eabi/lib" \\
+            $(sdl2-config --static-libs)
 
       - name: Package prototype VPK
         working-directory: vita
