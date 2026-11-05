@@ -16,17 +16,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Inspect VitaSDK tools
+      - name: Inspect VitaSDK tools and SDL2
         run: |
           echo "VITASDK=$VITASDK"
-          for tool in arm-vita-eabi-gcc vita-make-fself vita-mksfoex vita-pack-vpk; do
-            command -v "$tool" || true
-          done
+          command -v arm-vita-eabi-gcc
+          command -v vita-make-fself
+          command -v vita-mksfoex
+          command -v vita-pack-vpk
+          find "$VITASDK/arm-vita-eabi" -name 'libSDL2*' -print
 
-      - name: Build minimal native Vita executable
+      - name: Build SDL2 Vita executable
         working-directory: vita
         run: |
-          arm-vita-eabi-gcc -Wall -O2 src/main.c -o neonbrawl.velf -I"$VITASDK/arm-vita-eabi/include"
+          arm-vita-eabi-gcc -Wall -O2 \
+            -I"$VITASDK/arm-vita-eabi/include" \
+            src/main.c -o neonbrawl.velf \
+            -L"$VITASDK/arm-vita-eabi/lib" \
+            -lSDL2 \
+            -lSceDisplay_stub -lSceGxm_stub -lSceCtrl_stub \
+            -lSceSysmodule_stub
 
       - name: Package prototype VPK
         working-directory: vita
