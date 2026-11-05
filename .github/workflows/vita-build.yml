@@ -32,7 +32,7 @@ jobs:
             -I"$VITASDK/arm-vita-eabi/include" \
             src/main.c -o neonbrawl.velf \
             -L"$VITASDK/arm-vita-eabi/lib" \
-            -lSDL2 -lm \
+            -lSDL2 -lm -lstdc++ \
             -Wl,--start-group \
             -lSceLibKernel_stub -lSceProcessmgr_stub -lSceDisplay_stub -lSceGxm_stub \
             -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
