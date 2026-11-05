@@ -54,7 +54,7 @@ static void scene(SDL_Renderer*r,const Player*p,const Enemy*e,int count,float t)
  kai(r,p,t);
  for(int i=0;i<count;i++)if(e[i].hp>0&&e[i].y>=p->y)target(r,&e[i]);
  box(r,20,16,164,10,65,20,30); box(r,20,16,(p->hp>0?p->hp:0)*164/100,10,70,220,110);
- box(r,616,16,164,10,65,20,30); box(r,616,16,(e->hp>0?e->hp:0)*164/30,10,230,75,115);
+ box(r,616,16,164,10,65,20,30); int total=0,max_total=0; for(int i=0;i<count;i++){total+=e[i].hp>0?e[i].hp:0;max_total+=e[i].maxhp;}\n box(r,616,16,max_total?total*164/max_total:0,10,230,75,115);
  SDL_RenderPresent(r);
 }
 int main(int argc,char**argv){
@@ -91,7 +91,7 @@ int main(int argc,char**argv){
   if(k[SDL_SCANCODE_UP]||k[SDL_SCANCODE_W])my--;
   if(k[SDL_SCANCODE_DOWN]||k[SDL_SCANCODE_S])my++;
   if(k[SDL_SCANCODE_X]&&!p.hit){p.hit=1;p.atk=.22f;p.combo=p.combo>.0f?(p.combo>=3?1:p.combo+1):1;
-   if(fabsf(e.x-p.x)<55&&fabsf(e.y-p.y)<24){e.hp-=p.combo==3?14:8;if(e.hp<=0){e.hp=30;e.x=700;}}}
+   for(int j=0;j<enemy_count;j++)if(enemies[j].hp>0&&fabsf(enemies[j].x-p.x)<55&&fabsf(enemies[j].y-p.y)<24)enemies[j].hp-=p.combo==3?14:8;}
   if(k[SDL_SCANCODE_Z]&&p.z==0)p.vz=330;
   if(pad){Sint16 ax=SDL_GameControllerGetAxis(pad,SDL_CONTROLLER_AXIS_LEFTX),ay=SDL_GameControllerGetAxis(pad,SDL_CONTROLLER_AXIS_LEFTY);
    if(abs(ax)>7000)mx=ax/32767.0f;if(abs(ay)>7000)my=ay/32767.0f;}
