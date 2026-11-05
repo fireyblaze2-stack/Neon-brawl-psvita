@@ -16,12 +16,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check VitaSDK tools
+      - name: Inspect VitaSDK tools
         run: |
-          command -v arm-vita-eabi-gcc
-          command -v vita-makefself
-          command -v vita-mksfoex
-          command -v vita-pack-vpk
+          echo "VITASDK=$VITASDK"
+          echo "PATH=$PATH"
+          for tool in arm-vita-eabi-gcc vita-makefself vita-mksfoex vita-pack-vpk; do
+            if command -v "$tool"; then
+              echo "FOUND: $tool"
+            else
+              echo "MISSING: $tool"
+            fi
+          done
+          ls -la "$VITASDK/bin" 2>/dev/null || true
+          ls -la "$VITASDK/arm-vita-eabi/bin" 2>/dev/null || true
 
       - name: Build native SDL2 prototype
         working-directory: vita
