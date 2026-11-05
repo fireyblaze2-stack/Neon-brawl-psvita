@@ -20,6 +20,7 @@ jobs:
         run: |
           echo "VITASDK=$VITASDK"
           command -v arm-vita-eabi-gcc
+          command -v vita-elf-create
           command -v vita-make-fself
           command -v vita-mksfoex
           command -v vita-pack-vpk
@@ -30,7 +31,7 @@ jobs:
         run: |
           arm-vita-eabi-gcc -Wall -O2 -Wl,-q \
             -I"$VITASDK/arm-vita-eabi/include" \
-            src/main.c -o neonbrawl.velf \
+            src/main.c -o neonbrawl.elf \
             -L"$VITASDK/arm-vita-eabi/lib" \
             -lSDL2 -lm \
             -Wl,--start-group \
@@ -46,6 +47,7 @@ jobs:
         working-directory: vita
         run: |
           mkdir -p package
+          vita-elf-create neonbrawl.elf neonbrawl.velf
           vita-make-fself -c neonbrawl.velf package/eboot.bin
           vita-mksfoex -s TITLE_ID=NBRA00001 "Neon Brawl Vita Prototype" package/param.sfo
           vita-pack-vpk -s package/param.sfo -b package/eboot.bin neonbrawl-prototype.vpk
