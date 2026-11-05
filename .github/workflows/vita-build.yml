@@ -37,7 +37,8 @@ jobs:
             -lSceLibKernel_stub -lSceProcessmgr_stub -lSceDisplay_stub -lSceGxm_stub \
             -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
             -lSceCommonDialog_stub -lSceAudio_stub -lSceAudioIn_stub \
-            -lSceMotion_stub -lSceIme_stub -lvitaGL -lstdc++ \
+            -lSceMotion_stub -lSceIme_stub -lSceHid_stub -lSceAppMgr_stub \
+            -lvitashark -lmathneon -lvitaGL -lstdc++ \
             -Wl,--end-group
 
       - name: Package prototype VPK
