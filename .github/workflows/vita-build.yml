@@ -34,8 +34,8 @@ jobs:
         working-directory: vita
         run: |
           echo "SDL2 linker flags:"
-          sdl2-config --static-libs
-          arm-vita-eabi-gcc -Wall -O2 src/main.c -o neonbrawl.velf -I"$VITASDK/arm-vita-eabi/include/SDL2" -L"$VITASDK/arm-vita-eabi/lib" $(sdl2-config --static-libs)
+          "$VITASDK/bin/sdl2-config" --static-libs
+          arm-vita-eabi-gcc -Wall -O2 src/main.c -o neonbrawl.velf -I"$VITASDK/arm-vita-eabi/include/SDL2" -L"$VITASDK/arm-vita-eabi/lib" $("$VITASDK/bin/sdl2-config" --static-libs)
 
       - name: Package prototype VPK
         working-directory: vita
