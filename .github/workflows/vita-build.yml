@@ -34,7 +34,7 @@ jobs:
             -L"$VITASDK/arm-vita-eabi/lib" \
             -lSDL2 -lm \
             -Wl,--start-group \
-            -lSceKernel_stub -lSceDisplay_stub -lSceGxm_stub \
+            -lSceLibKernel_stub -lSceProcessmgr_stub -lSceDisplay_stub -lSceGxm_stub \
             -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
             -Wl,--end-group
 
