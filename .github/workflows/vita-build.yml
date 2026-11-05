@@ -33,8 +33,10 @@ jobs:
             src/main.c -o neonbrawl.velf \
             -L"$VITASDK/arm-vita-eabi/lib" \
             -lSDL2 \
-            -lSceDisplay_stub -lSceGxm_stub -lSceCtrl_stub \
-            -lSceSysmodule_stub
+            -Wl,--start-group \
+            -lSceTouch_stub -lSceMotion_stub -lSceDisplay_stub \
+            -lSceGxm_stub -lSceCtrl_stub -lSceSysmodule_stub \
+            -Wl,--end-group
 
       - name: Package prototype VPK
         working-directory: vita
