@@ -23,7 +23,7 @@ jobs:
           command -v vita-make-fself
           command -v vita-mksfoex
           command -v vita-pack-vpk
-          find "$VITASDK/arm-vita-eabi/lib" -maxdepth 1 -name 'lib*Sce*_stub.a' -printf '%f\\n' | sort
+          find "$VITASDK/arm-vita-eabi/lib" -maxdepth 1 -name 'lib*.a' -printf '%f\\n' | grep -Ei 'shark|math|shared|vita|hid|appmgr|neon' | sort
 
       - name: Build SDL2 Vita executable
         working-directory: vita
